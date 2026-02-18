@@ -368,8 +368,7 @@ tbody tr:last-child td { border-bottom: none; }
   <h1>MQL Brand Follow-Up Activity Report &mdash; Q1 2026</h1>
   <p class="subtitle">Insights into sales engagement patterns across 50 MQL brands</p>
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('summary')">Summary</button>
-    <button class="tab-btn" onclick="switchTab('opportunities')">With Opportunities (12)</button>
+    <button class="tab-btn active" onclick="switchTab('opportunities')">With Opportunities (12)</button>
     <button class="tab-btn" onclick="switchTab('no-opportunities')">Without Opportunities (38)</button>
     <button class="tab-btn" onclick="switchTab('charts')">Overview &amp; Charts</button>
   </div>
@@ -377,79 +376,8 @@ tbody tr:last-child td { border-bottom: none; }
 
 <div class="main">
 
-<!-- ======================== TAB 1: SUMMARY ======================== -->
-<div id="tab-summary" class="tab-content active">
-  <div class="metrics-grid">
-    <div class="metric-card blue">
-      <div class="number">50</div>
-      <div class="label">Total MQL Brands</div>
-    </div>
-    <div class="metric-card green">
-      <div class="number">12</div>
-      <div class="label">With Opportunities</div>
-    </div>
-    <div class="metric-card amber">
-      <div class="number">38</div>
-      <div class="label">Without Opportunities Yet</div>
-    </div>
-    <div class="metric-card teal">
-      <div class="number">$500,442</div>
-      <div class="label">Total Pipeline Value</div>
-    </div>
-    <div class="metric-card purple">
-      <div class="number">1</div>
-      <div class="label">Disqualified (DQ)</div>
-    </div>
-    <div class="metric-card red">
-      <div class="number">1</div>
-      <div class="label">Closed Lost</div>
-    </div>
-  </div>
-
-  <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px,1fr));">
-    <div class="metric-card teal">
-      <div class="number">66</div>
-      <div class="label">Total Meetings Booked</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>Key Insights</h3>
-    <p class="insight-text">These 50 brands represent strong inbound interest generated through <strong>marketing outbound email, LinkedIn outreach, and paid advertising campaigns</strong>. Ensuring consistent follow-up after meetings could help convert more prospects into opportunities.</p>
-    <p class="insight-text">Of the 50 MQL brands, <strong>12 have progressed to active opportunities</strong> with a combined pipeline value of <strong>$500,442</strong>. The remaining 38 brands are at various stages of engagement and represent additional conversion potential.</p>
-    <p class="insight-text">Among the 38 companies without opportunities, several show strong engagement with multiple meetings and touchpoints recorded. These companies may benefit from continued outreach to advance the conversation.</p>
-    <div class="note-box">
-      <strong>Important note:</strong> This report captures activity logged in HubSpot, specifically outbound emails and meetings. Additional follow-ups via phone calls, LinkedIn messages, or in-person meetings may not be reflected here. The data should be interpreted as a partial view of overall sales engagement.
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>Acquisition Channels</h3>
-    <p class="insight-text">Brands in this report were sourced through three primary channels:</p>
-    <ul style="margin-left: 20px; margin-top: 8px; font-size: 14px; color: #475569;">
-      <li style="margin-bottom: 6px;"><strong>Marketing Outbound Email</strong> &mdash; Targeted email campaigns to qualified prospects</li>
-      <li style="margin-bottom: 6px;"><strong>LinkedIn Outreach</strong> &mdash; Direct engagement through LinkedIn messaging and connection requests</li>
-      <li style="margin-bottom: 6px;"><strong>Paid Advertising</strong> &mdash; Inbound interest generated from paid ad campaigns</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Status Breakdown for Non-Opportunity Companies</h3>
-    <div class="summary-row" style="margin-top: 12px;">
-      <div class="summary-item"><span class="badge badge-active">ACTIVE</span> &nbsp;<strong>20</strong> companies with recent activity</div>
-      <div class="summary-item"><span class="badge badge-needs-followup">NEEDS FOLLOW-UP</span> &nbsp;<strong>5</strong> companies where additional engagement may be beneficial</div>
-      <div class="summary-item"><span class="badge badge-at-risk">AT RISK</span> &nbsp;<strong>11</strong> companies that may benefit from re-engagement</div>
-      <div class="summary-item"><span class="badge badge-no-followup">NO FOLLOW-UP</span> &nbsp;<strong>2</strong> companies with an opportunity for additional outreach</div>
-      <div class="summary-item"><span class="badge badge-dq">DQ</span> &nbsp;<strong>1</strong> prospect chose not to proceed</div>
-    </div>
-    <div class="note-box" style="margin-top: 8px;">
-      "No Follow-Up" and "Needs Follow-Up" labels indicate that no additional outbound emails were recorded in HubSpot after the most recent meeting. Follow-up activity may have occurred through other channels.
-    </div>
-  </div>
-</div>
-
 <!-- ======================== TAB 2: OPPORTUNITIES ======================== -->
-<div id="tab-opportunities" class="tab-content">
+<div id="tab-opportunities" class="tab-content active">
   <div class="section-title">Companies with Opportunities</div>
   <div class="section-subtitle">12 companies that have progressed to the opportunity stage</div>
 
@@ -623,7 +551,7 @@ function switchTab(id) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
-  const tabs = ['summary','opportunities','no-opportunities','charts'];
+  const tabs = ['opportunities','no-opportunities','charts'];
   const idx = tabs.indexOf(id);
   document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   if (id === 'charts' && !window.chartsRendered) {
