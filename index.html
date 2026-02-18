@@ -260,9 +260,109 @@ tbody tr:last-child td { border-bottom: none; }
   color: #64748b;
   margin-bottom: 20px;
 }
+
+/* Password Gate */
+#password-gate {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+#password-gate .gate-box {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+#password-gate .gate-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+#password-gate .gate-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+#password-gate .gate-subtitle {
+  font-size: 14px;
+  color: #a8b2d1;
+  margin-bottom: 28px;
+}
+#password-gate .gate-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 16px;
+}
+#password-gate .gate-input::placeholder {
+  color: rgba(168,178,209,0.6);
+}
+#password-gate .gate-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.25);
+}
+#password-gate .gate-btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+#password-gate .gate-btn:hover {
+  background: #1d4ed8;
+}
+#password-gate .gate-btn:active {
+  transform: scale(0.98);
+}
+#password-gate .gate-error {
+  color: #f87171;
+  font-size: 13px;
+  margin-top: 14px;
+  min-height: 20px;
+  transition: opacity 0.2s;
+}
 </style>
 </head>
 <body>
+
+<!-- Password Gate -->
+<div id="password-gate">
+  <div class="gate-box">
+    <span class="gate-icon">&#x1F512;</span>
+    <div class="gate-title">Protected Report</div>
+    <div class="gate-subtitle">Enter the access code to view this report</div>
+    <input type="password" class="gate-input" id="gate-password" placeholder="Access code" autocomplete="off" autofocus>
+    <button class="gate-btn" id="gate-submit" onclick="verifyPassword()">Unlock Report</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- Report Content (hidden until authenticated) -->
+<div id="report-content" style="display:none;">
 
 <div class="header">
   <h1>MQL Brand Follow-Up Activity Report &mdash; Q1 2026</h1>
@@ -834,6 +934,51 @@ function renderCharts() {
     }
   });
 }
+</script>
+
+</div><!-- /report-content -->
+
+<script>
+// ======================== PASSWORD GATE ========================
+const EXPECTED_HASH = 'ab38466a8dc4cf8fe7b020eb7ba522baa2c78033a078505d3817c9e227f5ae57';
+
+async function sha256(message) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyPassword() {
+  const input = document.getElementById('gate-password').value;
+  const errorEl = document.getElementById('gate-error');
+
+  if (!input) {
+    errorEl.textContent = 'Please enter an access code.';
+    return;
+  }
+
+  const hash = await sha256(input);
+
+  if (hash === EXPECTED_HASH) {
+    document.getElementById('password-gate').style.display = 'none';
+    document.getElementById('report-content').style.display = 'block';
+    errorEl.textContent = '';
+  } else {
+    errorEl.textContent = 'Incorrect access code. Please try again.';
+    document.getElementById('gate-password').value = '';
+    document.getElementById('gate-password').focus();
+  }
+}
+
+// Allow Enter key to submit
+document.getElementById('gate-password').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    verifyPassword();
+  }
+});
 </script>
 </body>
 </html>
