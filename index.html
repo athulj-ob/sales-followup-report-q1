@@ -100,6 +100,18 @@
   .owner-stat .val.bad { color: #e74c3c; }
   .owner-stat .val.ok { color: #f39c12; }
   .owner-stat .val.good { color: #27ae60; }
+
+  /* ── Interactive Filters ── */
+  .filter-bar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .filter-bar label { font-size: 13px; font-weight: 600; color: #555; }
+  .filter-bar select, .filter-bar input { padding: 7px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; background: white; }
+  .filter-bar select:focus, .filter-bar input:focus { outline: none; border-color: #3498db; }
+  .filter-count { font-size: 13px; color: #888; margin-left: auto; }
+  .sortable { cursor: pointer; user-select: none; }
+  .sortable:hover { background: #2c3e50; }
+  .sortable::after { content: ' \u2195'; opacity: 0.4; font-size: 11px; }
+  .sortable.sort-asc::after { content: ' \u2191'; opacity: 0.8; }
+  .sortable.sort-desc::after { content: ' \u2193'; opacity: 0.8; }
 </style>
 </head>
 <body>
@@ -194,6 +206,101 @@
           <tr><td><strong>Goral-Shoes</strong></td><td>Ash Luker</td><td>Engaged</td><td>$20,000</td><td>2026-02-02</td><td>2026-02-09</td><td>8</td><td>21</td><td>8</td><td>20</td><td><span class="badge opportunity">Engaged</span></td></tr>
           <tr><td><strong>Mott &amp; Bow</strong></td><td>Brad Noble</td><td>Qualified</td><td>$25,000</td><td>2026-02-02</td><td>2025-12-18</td><td>61</td><td>19</td><td>18</td><td>3</td><td><span class="badge opportunity">Qualified</span></td></tr>
           <tr><td><strong>Rayconglobal</strong></td><td>Brad Noble</td><td>Closed Lost</td><td>$230,000</td><td>2026-01-23</td><td>2026-01-29</td><td>19</td><td>24</td><td>7</td><td>13</td><td><span class="badge closed-lost">Closed Lost</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Companies WITHOUT Opportunities (39) ── -->
+  <div class="section">
+    <h2>Companies without Opportunities (39)</h2>
+    <div class="filter-bar">
+      <label>Filter by Status:</label>
+      <select id="filterStatus" onchange="filterNoOppo()">
+        <option value="all">All Statuses</option>
+        <option value="no-followup">No Follow-Up</option>
+        <option value="needs-followup">Needs Follow-Up</option>
+        <option value="at-risk">At Risk</option>
+        <option value="active">Active</option>
+        <option value="prospect-declined">Prospect Declined</option>
+      </select>
+      <label>Filter by Owner:</label>
+      <select id="filterOwner" onchange="filterNoOppo()">
+        <option value="all">All Owners</option>
+        <option value="Gregory Unger">Gregory Unger</option>
+        <option value="Brad Noble">Brad Noble</option>
+        <option value="Ash Luker">Ash Luker</option>
+        <option value="Ryan Leahy">Ryan Leahy</option>
+        <option value="Daniel Rosen">Daniel Rosen</option>
+        <option value="Darwish Gani">Darwish Gani</option>
+      </select>
+      <label>Follow-ups:</label>
+      <select id="filterFollowups" onchange="filterNoOppo()">
+        <option value="all">All</option>
+        <option value="0">0 follow-ups only</option>
+        <option value="low">1-3 follow-ups</option>
+        <option value="high">4+ follow-ups</option>
+      </select>
+      <input type="text" id="filterSearch" placeholder="Search company..." oninput="filterNoOppo()" style="width:160px;">
+      <span class="filter-count" id="noOppoCount">Showing 39 of 39</span>
+    </div>
+    <div class="table-wrapper">
+      <table id="noOppoTable">
+        <thead>
+          <tr>
+            <th class="sortable" onclick="sortNoOppo(0)">Company</th>
+            <th>Domain</th>
+            <th class="sortable" onclick="sortNoOppo(2)">Traffic</th>
+            <th class="sortable" onclick="sortNoOppo(3)">Sales Owner</th>
+            <th class="sortable" onclick="sortNoOppo(4)">Meetings</th>
+            <th class="sortable" onclick="sortNoOppo(5)">Last Meeting</th>
+            <th class="sortable" onclick="sortNoOppo(6)">Days Since</th>
+            <th class="sortable" onclick="sortNoOppo(7)">Outbound Emails</th>
+            <th class="sortable" onclick="sortNoOppo(8)">Total Touchpoints</th>
+            <th class="sortable" onclick="sortNoOppo(9)">Follow-ups After Meeting</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="noOppoBody">
+          <tr data-status="prospect-declined" data-owner="Gregory Unger" data-fu="0"><td><strong>Deux Par Deux</strong></td><td>deuxpardeux.com</td><td>68,614</td><td>Gregory Unger</td><td>1</td><td>2026-01-30</td><td>18</td><td>0</td><td>1</td><td>0</td><td><span class="badge prospect-declined">Prospect Declined</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>Anatomie</strong></td><td>anatomie.com</td><td>65,164</td><td>Gregory Unger</td><td>2</td><td>2026-02-27</td><td>-10</td><td class="zero">0</td><td>2</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Ryan Leahy" data-fu="0"><td><strong>Brandon Blackwood</strong></td><td>brandonblackwood.com</td><td>159,205</td><td>Ryan Leahy</td><td>4</td><td>2026-02-17</td><td>0</td><td>6</td><td>10</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="" data-fu="0"><td><strong>Buddha Jewelry</strong></td><td>buddhajewelry.com</td><td>48,389</td><td></td><td class="zero">0</td><td>No meeting</td><td></td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Ash Luker" data-fu="0"><td><strong>Cass Art</strong></td><td>cassart.co.uk</td><td></td><td>Ash Luker</td><td>1</td><td>2026-02-20</td><td>-3</td><td>5</td><td>6</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="needs-followup" data-owner="Gregory Unger" data-fu="0"><td><strong>Knkg</strong></td><td>knkg.com</td><td>76,700</td><td>Gregory Unger</td><td>1</td><td>2026-02-04</td><td>13</td><td class="zero">0</td><td>1</td><td class="zero">0</td><td><span class="badge needs-followup">Needs Follow-Up</span></td></tr>
+          <tr data-status="no-followup" data-owner="Gregory Unger" data-fu="0"><td><strong>Krewe</strong></td><td>krewe.com</td><td>102,495</td><td>Gregory Unger</td><td>1</td><td>2026-01-09</td><td>39</td><td>5</td><td>6</td><td class="zero">0</td><td><span class="badge no-followup">No Follow-Up</span></td></tr>
+          <tr data-status="active" data-owner="Brad Noble" data-fu="0"><td><strong>Loogguitars</strong></td><td>loogguitars.com</td><td>65,324</td><td>Brad Noble</td><td>1</td><td>2026-02-25</td><td>-8</td><td class="zero">0</td><td>1</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Daniel Rosen" data-fu="0"><td><strong>Matethelabel</strong></td><td>matethelabel.com</td><td>111,660</td><td>Daniel Rosen</td><td>1</td><td>2026-02-19</td><td>-2</td><td>2</td><td>3</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>Monsterbass</strong></td><td>monsterbass.com</td><td>132,827</td><td>Gregory Unger</td><td>1</td><td>2026-02-11</td><td>6</td><td>1</td><td>2</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>Namawell</strong></td><td>namawell.com</td><td>304,875</td><td>Gregory Unger</td><td>1</td><td>2026-02-11</td><td>6</td><td class="zero">0</td><td>1</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="needs-followup" data-owner="Gregory Unger" data-fu="0"><td><strong>Nuudii System</strong></td><td>nuudiisystem.com</td><td>31,197</td><td>Gregory Unger</td><td>1</td><td>2026-02-09</td><td>8</td><td>1</td><td>2</td><td class="zero">0</td><td><span class="badge needs-followup">Needs Follow-Up</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>Ritani</strong></td><td>ritani.com</td><td>334,976</td><td>Gregory Unger</td><td>1</td><td>2026-02-18</td><td>-1</td><td class="zero">0</td><td>1</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>RoseSkinCo.</strong></td><td>roseskinco.com</td><td></td><td>Gregory Unger</td><td>1</td><td>2026-02-19</td><td>-2</td><td>1</td><td>2</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="" data-fu="0"><td><strong>Samplize</strong></td><td>samplize.com</td><td>368,524</td><td></td><td class="zero">0</td><td>No meeting</td><td></td><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="no-followup" data-owner="Gregory Unger" data-fu="0"><td><strong>Soma Energetics</strong></td><td>somaenergetics.com</td><td></td><td>Gregory Unger</td><td>1</td><td>2026-01-27</td><td>21</td><td class="zero">0</td><td>1</td><td class="zero">0</td><td><span class="badge no-followup">No Follow-Up</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>True Nutrition</strong></td><td>truenutrition.com</td><td>135,149</td><td>Gregory Unger</td><td>4</td><td>2026-02-18</td><td>-1</td><td class="zero">0</td><td>4</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>Wild Science Lab</strong></td><td>wildsciencelab.com</td><td></td><td>Gregory Unger</td><td>1</td><td>2026-02-18</td><td>-1</td><td>1</td><td>2</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>Woojer</strong></td><td>woojer.com</td><td>193,483</td><td>Gregory Unger</td><td>1</td><td>2026-02-18</td><td>-1</td><td class="zero">0</td><td>1</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>Yosi Samra</strong></td><td>yosisamra.com</td><td></td><td>Gregory Unger</td><td>1</td><td>2026-02-18</td><td>-1</td><td>1</td><td>2</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="0"><td><strong>pampeano</strong></td><td>pampeano.com</td><td></td><td>Gregory Unger</td><td>1</td><td>2026-02-18</td><td>-1</td><td class="zero">0</td><td>1</td><td class="zero">0</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="active" data-owner="Gregory Unger" data-fu="1"><td><strong>Country Life</strong></td><td>countrylifevitamins.com</td><td></td><td>Gregory Unger</td><td>1</td><td>2026-02-13</td><td>4</td><td>1</td><td>2</td><td>1</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="needs-followup" data-owner="Ryan Leahy" data-fu="1"><td><strong>Dieux</strong></td><td>dieuxskin.com</td><td>173,766</td><td>Ryan Leahy</td><td>3</td><td>2026-01-07</td><td>41</td><td>1</td><td>4</td><td>1</td><td><span class="badge needs-followup">Needs Follow-Up</span></td></tr>
+          <tr data-status="needs-followup" data-owner="Gregory Unger" data-fu="1"><td><strong>Iam8Bit</strong></td><td>iam8bit.com</td><td>328,815</td><td>Gregory Unger</td><td>1</td><td>2026-02-02</td><td>15</td><td>1</td><td>2</td><td>1</td><td><span class="badge needs-followup">Needs Follow-Up</span></td></tr>
+          <tr data-status="needs-followup" data-owner="Gregory Unger" data-fu="1"><td><strong>Myconquering</strong></td><td>myconquering.com</td><td>88,360</td><td>Gregory Unger</td><td>1</td><td>2026-01-28</td><td>20</td><td>1</td><td>2</td><td>1</td><td><span class="badge needs-followup">Needs Follow-Up</span></td></tr>
+          <tr data-status="needs-followup" data-owner="Gregory Unger" data-fu="1"><td><strong>Thorum</strong></td><td>thorum.com</td><td>192,795</td><td>Gregory Unger</td><td>1</td><td>2026-02-06</td><td>11</td><td>1</td><td>2</td><td>1</td><td><span class="badge needs-followup">Needs Follow-Up</span></td></tr>
+          <tr data-status="at-risk" data-owner="Gregory Unger" data-fu="2"><td><strong>Faherty Brand</strong></td><td>fahertybrand.com</td><td>708,856</td><td>Gregory Unger</td><td>1</td><td>2026-01-23</td><td>25</td><td>5</td><td>6</td><td>2</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Brad Noble" data-fu="2"><td><strong>Loveinfaith</strong></td><td>loveinfaith.life</td><td>956,157</td><td>Brad Noble</td><td>2</td><td>2026-01-14</td><td>34</td><td>3</td><td>5</td><td>2</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Gregory Unger" data-fu="2"><td><strong>Mezlan</strong></td><td>mezlan.com</td><td>127,908</td><td>Gregory Unger</td><td>1</td><td>2026-01-28</td><td>20</td><td>2</td><td>3</td><td>2</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Gregory Unger" data-fu="2"><td><strong>Saniderm</strong></td><td>saniderm.com</td><td>105,215</td><td>Gregory Unger</td><td>1</td><td>2026-01-28</td><td>20</td><td>2</td><td>3</td><td>2</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Gregory Unger" data-fu="3"><td><strong>Bandolierstyle</strong></td><td>bandolierstyle.com</td><td>177,391</td><td>Gregory Unger</td><td>1</td><td>2026-01-29</td><td>19</td><td>7</td><td>8</td><td>3</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Gregory Unger" data-fu="3"><td><strong>Matt &amp; Nat</strong></td><td>mattandnat.com</td><td>439,059</td><td>Gregory Unger</td><td>1</td><td>2026-02-03</td><td>14</td><td>4</td><td>5</td><td>3</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Gregory Unger" data-fu="3"><td><strong>Onesizebeauty</strong></td><td>onesizebeauty.com</td><td>139,764</td><td>Gregory Unger</td><td>1</td><td>2026-01-27</td><td>21</td><td>3</td><td>4</td><td>3</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Darwish Gani" data-fu="3"><td><strong>Promescent</strong></td><td>promescent.com</td><td>1,320,130</td><td>Darwish Gani</td><td>1</td><td>2025-11-12</td><td>97</td><td>3</td><td>4</td><td>3</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Gregory Unger" data-fu="3"><td><strong>RIPNDIP</strong></td><td>ripndip.com</td><td></td><td>Gregory Unger</td><td>1</td><td>2026-01-28</td><td>20</td><td>3</td><td>4</td><td>3</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Brad Noble" data-fu="8"><td><strong>KershKicks</strong></td><td>kershkicks.co.uk</td><td></td><td>Brad Noble</td><td>2</td><td>2026-01-09</td><td>39</td><td>14</td><td>16</td><td>8</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="at-risk" data-owner="Ash Luker" data-fu="9"><td><strong>Theskinnyfoodco</strong></td><td>theskinnyfoodco.com</td><td>418,417</td><td>Ash Luker</td><td>1</td><td>2026-02-06</td><td>11</td><td>14</td><td>15</td><td>9</td><td><span class="badge at-risk">At Risk</span></td></tr>
+          <tr data-status="active" data-owner="Ash Luker" data-fu="9"><td><strong>Yoto Limited</strong></td><td>yotoplay.com</td><td></td><td>Ash Luker</td><td>1</td><td>2026-02-13</td><td>4</td><td>11</td><td>12</td><td>9</td><td><span class="badge active">Active</span></td></tr>
+          <tr data-status="at-risk" data-owner="Ash Luker" data-fu="13"><td><strong>Books2Door</strong></td><td>books2door.com</td><td></td><td>Ash Luker</td><td>1</td><td>2026-01-27</td><td>21</td><td>13</td><td>14</td><td>13</td><td><span class="badge at-risk">At Risk</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -545,6 +652,67 @@ new Chart(document.getElementById('chartDaysSince'), {
   },
   options: { responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { afterLabel: () => 'Zero follow-ups after meeting' } } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Days Since Last Meeting' } } } }
 });
+
+// ── Interactive Filtering for No-Oppo Table ──
+function filterNoOppo() {
+  const status = document.getElementById('filterStatus').value;
+  const owner = document.getElementById('filterOwner').value;
+  const fu = document.getElementById('filterFollowups').value;
+  const search = document.getElementById('filterSearch').value.toLowerCase();
+  const rows = document.querySelectorAll('#noOppoTable tbody tr');
+  let count = 0;
+  rows.forEach(row => {
+    const rStatus = row.getAttribute('data-status');
+    const rOwner = row.getAttribute('data-owner');
+    const rFu = parseInt(row.getAttribute('data-fu'));
+    const rName = row.cells[0].textContent.toLowerCase();
+    let show = true;
+    if (status && rStatus !== status) show = false;
+    if (owner && rOwner !== owner) show = false;
+    if (fu === '0' && rFu !== 0) show = false;
+    else if (fu === '1-3' && (rFu < 1 || rFu > 3)) show = false;
+    else if (fu === '4+' && rFu < 4) show = false;
+    if (search && !rName.includes(search)) show = false;
+    row.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  document.getElementById('noOppoCount').textContent = 'Showing ' + count + ' of 39';
+}
+
+let noOppoSortCol = -1;
+let noOppoSortAsc = true;
+function sortNoOppo(colIdx) {
+  const tbody = document.querySelector('#noOppoTable tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  if (noOppoSortCol === colIdx) { noOppoSortAsc = !noOppoSortAsc; } else { noOppoSortCol = colIdx; noOppoSortAsc = true; }
+  rows.sort((a, b) => {
+    let va = a.cells[colIdx].textContent.trim();
+    let vb = b.cells[colIdx].textContent.trim();
+    // Try numeric sort
+    const na = parseFloat(va.replace(/[,$%]/g, ''));
+    const nb = parseFloat(vb.replace(/[,$%]/g, ''));
+    if (!isNaN(na) && !isNaN(nb)) {
+      return noOppoSortAsc ? na - nb : nb - na;
+    }
+    // Date sort
+    if (va.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      return noOppoSortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    }
+    // String sort
+    return noOppoSortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+  // Update sort indicators
+  document.querySelectorAll('#noOppoTable th.sortable').forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+  });
+  const ths = document.querySelectorAll('#noOppoTable th.sortable');
+  const thMap = [0,null,2,3,4,5,6,7,8,9];
+  const thIdx = thMap.indexOf(colIdx);
+  if (thIdx >= 0 && ths[thIdx]) {
+    ths[thIdx].classList.add(noOppoSortAsc ? 'sort-asc' : 'sort-desc');
+  }
+}
 </script>
 
 </body>
