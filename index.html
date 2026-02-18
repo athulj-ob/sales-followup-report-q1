@@ -210,12 +210,15 @@
   }
 
   /* Custom tooltip for column headers */
-  .data-table thead th {
-    position: relative;
-  }
   .data-table thead th .col-tip {
-    visibility: hidden;
-    opacity: 0;
+    display: none;
+  }
+  .data-table thead th .header-text {
+    border-bottom: 1px dashed #aaa;
+    padding-bottom: 1px;
+  }
+  #global-tooltip {
+    display: none;
     position: fixed;
     background: #1a1a2e;
     color: #fff;
@@ -231,19 +234,23 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     pointer-events: none;
     text-align: left;
-    transition: opacity 0.15s ease;
   }
-  .data-table thead th:hover .col-tip {
-    visibility: visible;
-    opacity: 1;
+  #global-tooltip.visible {
+    display: block;
   }
-  .data-table thead th .header-text {
-    border-bottom: 1px dashed #aaa;
-    padding-bottom: 1px;
+  #global-tooltip::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 20px;
+    border: 6px solid transparent;
+    border-bottom-color: #1a1a2e;
+    border-top: none;
   }
 </style>
 </head>
 <body>
+<div id="global-tooltip"></div>
 
 <!-- Password Gate -->
 <div id="password-gate">
@@ -1365,25 +1372,32 @@ function initCharts() {
   });
 }
 
-// ==================== TOOLTIP POSITIONING ====================
+// ==================== TOOLTIP (GLOBAL DIV, JS-CONTROLLED) ====================
+const gTip = document.getElementById('global-tooltip');
+
 document.querySelectorAll('.data-table thead th').forEach(th => {
-  const tip = th.querySelector('.col-tip');
-  if (!tip) return;
-  th.addEventListener('mouseenter', function(e) {
+  const colTip = th.querySelector('.col-tip');
+  if (!colTip) return;
+  const tipText = colTip.textContent;
+
+  th.addEventListener('mouseenter', function() {
     const rect = th.getBoundingClientRect();
-    // Position below the header
-    tip.style.top = (rect.bottom + 8) + 'px';
-    tip.style.left = rect.left + 'px';
-    // Keep within viewport
+    gTip.textContent = tipText;
+    gTip.classList.add('visible');
+    // position below header
+    gTip.style.top = (rect.bottom + 8) + 'px';
+    gTip.style.left = rect.left + 'px';
+    // adjust if off-screen right
     requestAnimationFrame(() => {
-      const tipRect = tip.getBoundingClientRect();
-      if (tipRect.right > window.innerWidth - 12) {
-        tip.style.left = (window.innerWidth - tipRect.width - 12) + 'px';
-      }
-      if (tipRect.left < 12) {
-        tip.style.left = '12px';
+      const tr = gTip.getBoundingClientRect();
+      if (tr.right > window.innerWidth - 12) {
+        gTip.style.left = Math.max(12, window.innerWidth - tr.width - 12) + 'px';
       }
     });
+  });
+
+  th.addEventListener('mouseleave', function() {
+    gTip.classList.remove('visible');
   });
 });
 </script>
