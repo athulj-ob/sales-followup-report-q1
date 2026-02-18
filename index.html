@@ -209,10 +209,47 @@
     .data-table thead th, .data-table tbody td { padding: 8px 10px; }
   }
 
-  /* Tooltip for column headers */
-  .data-table thead th[title] {
-    text-decoration: underline dotted #bbb;
-    text-underline-offset: 3px;
+  /* Custom tooltip for column headers */
+  .data-table thead th {
+    position: relative;
+  }
+  .data-table thead th .col-tip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a2e;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    white-space: normal;
+    width: max-content;
+    max-width: 280px;
+    line-height: 1.5;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    pointer-events: none;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+  .data-table thead th .col-tip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1a1a2e;
+  }
+  .data-table thead th:hover .col-tip {
+    display: block;
+  }
+  .data-table thead th .header-text {
+    border-bottom: 1px dashed #aaa;
+    padding-bottom: 1px;
   }
 </style>
 </head>
@@ -267,19 +304,19 @@
         <table class="data-table" id="oppo-table">
           <thead>
             <tr>
-              <th title="Brand / company name" onclick="sortTable('oppo-table',0,'str')">Company <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Company website domain" onclick="sortTable('oppo-table',1,'str')">Domain <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Estimated monthly website traffic" onclick="sortTable('oppo-table',2,'num')">Traffic <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Sales rep assigned to this account" onclick="sortTable('oppo-table',3,'str')">Sales Owner <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Total number of meetings booked with this prospect" onclick="sortTable('oppo-table',4,'num')">Meetings <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Date of the most recent meeting" onclick="sortTable('oppo-table',5,'date')">Last Meeting <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Total outbound emails sent by the sales team to this prospect (all time, logged in HubSpot)" onclick="sortTable('oppo-table',6,'num')">Emails Sent <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Emails Sent + Meetings combined — the total number of direct interactions with the prospect" onclick="sortTable('oppo-table',7,'num')">Total Touchpoints <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Name of the deal/opportunity in HubSpot" onclick="sortTable('oppo-table',8,'str')">Deal Name <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Current deal stage in the sales pipeline" onclick="sortTable('oppo-table',9,'str')">Stage <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Deal value in USD" onclick="sortTable('oppo-table',10,'num')">Amount <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Date the deal/opportunity was created in HubSpot" onclick="sortTable('oppo-table',11,'date')">Created <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Number of outbound emails sent AFTER the deal was created — shows ongoing engagement post-opportunity" onclick="sortTable('oppo-table',12,'num')">Emails Sent After Deal Created <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',0,'str')"><span class="col-tip">Brand / company name</span><span class="header-text">Company</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',1,'str')"><span class="col-tip">Company website domain</span><span class="header-text">Domain</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',2,'num')"><span class="col-tip">Estimated monthly website traffic</span><span class="header-text">Traffic</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',3,'str')"><span class="col-tip">Sales rep assigned to this account</span><span class="header-text">Sales Owner</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',4,'num')"><span class="col-tip">Total number of meetings booked with this prospect</span><span class="header-text">Meetings</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',5,'date')"><span class="col-tip">Date of the most recent meeting</span><span class="header-text">Last Meeting</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',6,'num')"><span class="col-tip">Total outbound emails sent by the sales team to this prospect (all time, logged in HubSpot)</span><span class="header-text">Emails Sent</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',7,'num')"><span class="col-tip">Emails Sent + Meetings combined — the total number of direct interactions with the prospect</span><span class="header-text">Total Touchpoints</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',8,'str')"><span class="col-tip">Name of the deal/opportunity in HubSpot</span><span class="header-text">Deal Name</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',9,'str')"><span class="col-tip">Current deal stage in the sales pipeline</span><span class="header-text">Stage</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',10,'num')"><span class="col-tip">Deal value in USD</span><span class="header-text">Amount</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',11,'date')"><span class="col-tip">Date the deal/opportunity was created in HubSpot</span><span class="header-text">Created</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('oppo-table',12,'num')"><span class="col-tip">Number of outbound emails sent AFTER the deal was created — shows ongoing engagement post-opportunity</span><span class="header-text">Emails Sent After Deal Created</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
             </tr>
           </thead>
           <tbody>
@@ -525,17 +562,17 @@
         <table class="data-table" id="meetings-table">
           <thead>
             <tr>
-              <th title="Brand / company name" onclick="sortTable('meetings-table',0,'str')">Company <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Company website domain" onclick="sortTable('meetings-table',1,'str')">Domain <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Estimated monthly website traffic" onclick="sortTable('meetings-table',2,'num')">Traffic <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Sales rep assigned to this account" onclick="sortTable('meetings-table',3,'str')">Sales Owner <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Total number of meetings booked with this prospect" onclick="sortTable('meetings-table',4,'num')">Meetings <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Date of the most recent meeting" onclick="sortTable('meetings-table',5,'date')">Last Meeting <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Number of days since the last meeting. Negative values mean the meeting is upcoming/scheduled." onclick="sortTable('meetings-table',6,'num')">Days Since <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Total outbound emails sent by the sales team to this prospect (all time, logged in HubSpot)" onclick="sortTable('meetings-table',7,'num')">Emails Sent <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Emails Sent + Meetings combined — the total number of direct interactions with the prospect" onclick="sortTable('meetings-table',8,'num')">Total Touchpoints <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Number of outbound emails sent AFTER the last meeting — shows whether follow-up happened after the conversation" onclick="sortTable('meetings-table',9,'num')">Emails Sent After Last Meeting <span class="sort-arrow">&#9650;&#9660;</span></th>
-              <th title="Current engagement status: ACTIVE (recent activity), NEEDS FOLLOW-UP (no emails after meeting), AT RISK (extended gap since meeting), NO FOLLOW-UP (no emails sent after meeting), DQ (prospect declined)" onclick="sortTable('meetings-table',10,'str')">Status <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',0,'str')"><span class="col-tip">Brand / company name</span><span class="header-text">Company</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',1,'str')"><span class="col-tip">Company website domain</span><span class="header-text">Domain</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',2,'num')"><span class="col-tip">Estimated monthly website traffic</span><span class="header-text">Traffic</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',3,'str')"><span class="col-tip">Sales rep assigned to this account</span><span class="header-text">Sales Owner</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',4,'num')"><span class="col-tip">Total number of meetings booked with this prospect</span><span class="header-text">Meetings</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',5,'date')"><span class="col-tip">Date of the most recent meeting</span><span class="header-text">Last Meeting</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',6,'num')"><span class="col-tip">Number of days since the last meeting. Negative values mean the meeting is upcoming/scheduled.</span><span class="header-text">Days Since</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',7,'num')"><span class="col-tip">Total outbound emails sent by the sales team to this prospect (all time, logged in HubSpot)</span><span class="header-text">Emails Sent</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',8,'num')"><span class="col-tip">Emails Sent + Meetings combined — the total number of direct interactions with the prospect</span><span class="header-text">Total Touchpoints</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',9,'num')"><span class="col-tip">Number of outbound emails sent AFTER the last meeting — shows whether follow-up happened after the conversation</span><span class="header-text">Emails Sent After Last Meeting</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
+              <th onclick="sortTable('meetings-table',10,'str')"><span class="col-tip">Current engagement status: ACTIVE (recent activity), NEEDS FOLLOW-UP (no emails after meeting), AT RISK (extended gap since meeting), NO FOLLOW-UP (no emails sent after meeting), DQ (prospect declined)</span><span class="header-text">Status</span> <span class="sort-arrow">&#9650;&#9660;</span></th>
             </tr>
           </thead>
           <tbody>
