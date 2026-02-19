@@ -534,7 +534,6 @@
             <option value="Brad Noble">Brad Noble</option>
             <option value="Ash Luker">Ash Luker</option>
             <option value="Ryan Leahy">Ryan Leahy</option>
-            <option value="Daniel Rosen">Daniel Rosen</option>
             <option value="Darwish Gani">Darwish Gani</option>
             <option value="(none)">(none)</option>
           </select>
@@ -1334,8 +1333,6 @@ function initCharts() {
   // Total: Ash Luker meetings=8, emails=89
   // Ryan Leahy: Oppo mtgs: 0, Oppo emails: 0, Meeting mtgs: 4+3=7, Meeting emails: 6+1=7
   // Total: Ryan Leahy meetings=7, emails=7
-  // Daniel Rosen: Meeting mtgs: 1, Meeting emails: 2
-  // Total: Daniel Rosen meetings=1, emails=2
   // Darwish Gani: Meeting mtgs: 1, Meeting emails: 3
   // Total: Darwish Gani meetings=1, emails=3
 
@@ -1343,17 +1340,17 @@ function initCharts() {
   new Chart(ownerCtx, {
     type: 'bar',
     data: {
-      labels: ['Gregory Unger', 'Ash Luker', 'Brad Noble', 'Ryan Leahy', 'Darwish Gani', 'Daniel Rosen'],
+      labels: ['Gregory Unger', 'Ash Luker', 'Brad Noble', 'Ryan Leahy', 'Darwish Gani'],
       datasets: [
         {
           label: 'Meetings',
-          data: [35, 8, 10, 7, 1, 1],
+          data: [35, 8, 10, 7, 1],
           backgroundColor: '#4361ee',
           borderRadius: 4
         },
         {
           label: 'Emails Sent',
-          data: [78, 89, 61, 7, 3, 2],
+          data: [78, 89, 61, 7, 3],
           backgroundColor: '#28a745',
           borderRadius: 4
         }
